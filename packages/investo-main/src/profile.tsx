@@ -3,7 +3,7 @@ import { Card } from 'antd';
 
 const { Meta } = Card;
 
-const Profile: React.FC = () => {
+const Profile: React.FC<any> = ({isAuthenticated}) => {
 
 
 return(

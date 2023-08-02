@@ -19,7 +19,7 @@ const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
 
 
-  const [isAuthenticated, setisAuthenticated] = useState(false);
+  const [isAuthenticated, setisAuthenticated] = useState(true);
 
   const [user, setUser] = useState<any>({});
 
@@ -131,21 +131,23 @@ const App: React.FC = () => {
             )}
         </div> */}
 
+        
+
         <Main/>
      
     </div>
   );
 };
 
-const DataReturned: React.FC = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<div>Home</div>}></Route>
-      <Route path="/network" element={<Network />}></Route>
-      <Route path="/profile" element={<Profile />}></Route>
-      <Route path="/feed" element={<Feed />}></Route>
-    </Routes>
-  );
-};
+// const DataReturned: React.FC = () => {
+//   return (
+//     <Routes>
+//       <Route path="/" element={<div>Home</div>}></Route>
+//       <Route path="/network" element={<Network />}></Route>
+//       <Route path="/profile" element={<Profile />}></Route>
+//       <Route path="/feed" element={<Feed />}></Route>
+//     </Routes>
+//   );
+// };
 
 export default App;

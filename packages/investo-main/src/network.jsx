@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Network = () => {
+const Network = ({isAuthenticated}) => {
   return (
     <div>You can see your connections here</div>
   )

@@ -14,6 +14,8 @@ import { Content } from "antd/es/layout/layout";
 import Profile from "./profile";
 import Network from "./network";
 import Feed from "./feed";
+import Myposts from "./myposts";
+
 import jwtDecode from "jwt-decode";
 
 import axios from 'axios';
@@ -43,7 +45,7 @@ function getItem(
 const items: MenuItem[] = [
   getItem("Feed", "/feed", <StockOutlined />),
   getItem("My Network", "/network", <TeamOutlined />),
-  getItem("Home", "/", <DesktopOutlined />),
+  getItem("Home", "/myposts", <DesktopOutlined />),
   getItem("Profile", "/profile", <UserOutlined />),
 ];
 
@@ -105,7 +107,7 @@ const Main: React.FC = () => {
 });
 
 console.log('profileeee',profile)
-const [isAuthenticated, setisAuthenticated] = useState<boolean>(false)
+const [isAuthenticated, setisAuthenticated] = useState<boolean>()
   return (
     // <div>
     //   {isAuthenticated ? (
@@ -147,15 +149,15 @@ const [isAuthenticated, setisAuthenticated] = useState<boolean>(false)
         </Sider>
         <Layout>
           <Header style={{ padding: 0, background: colorBgContainer }} >
-          {profile.length!==0?(<p>{profile.name}</p>):(<button onClick={logOut}>Log out</button>)}
+          
           
           </Header>
           <Content style={{ margin: "0 16px" }}>
-            {profile.length!==0?(<DataReturned />):(<button onClick={() => login()}>Sign in with Google 🚀 </button>)}
+            <DataReturned isAuthenticated={isAuthenticated}/>
             
           </Content>
         </Layout>
-      </Layout>):(<Loginpage/>)}
+      </Layout>):(<Loginpage setisAuthenticated={setisAuthenticated}/>)}
       {/* <Layout style={{ minHeight: "100vh" }}>
         <Sider
           collapsible
@@ -187,16 +189,18 @@ const [isAuthenticated, setisAuthenticated] = useState<boolean>(false)
   );
 };
 
-const DataReturned: React.FC = () => {
+const DataReturned: React.FC<any> = ({isAuthenticated}) => {
   return (
-    <GoogleOAuthProvider clientId="354002424448-mi6oha24dvp2cm1sn35q85s1e61meoou.apps.googleusercontent.com">
+   
     <Routes>
-      <Route path="/" element={<div>Home</div>}></Route>
-      <Route path="/network" element={<Network />}></Route>
-      <Route path="/profile" element={<Profile />}></Route>
-      <Route path="/feed" element={<Feed />}></Route>
+     
+      <Route path="/network" element={<Network isAuthenticated={isAuthenticated}/>}></Route>
+      <Route path="/profile" element={<Profile isAuthenticated={isAuthenticated}/>}></Route>
+      <Route path="/feed" element={<Feed isAuthenticated={isAuthenticated}/>}></Route>
+      <Route path="/myposts" element={<Myposts isAuthenticated={isAuthenticated}/>}></Route>
+
     </Routes>
-    </GoogleOAuthProvider>
+   
   );
 };
 
