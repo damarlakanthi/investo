@@ -22,7 +22,7 @@ import axios from 'axios';
 import { GoogleOAuthProvider, googleLogout, useGoogleLogin } from "@react-oauth/google";
 import Loginpage from "./loginpage";
 import UserProfile from "./userProfile";
-import logo from './investo.png'
+import logo from './investologo.png'
 
 const { Header, Footer, Sider } = Layout;
 
@@ -127,7 +127,7 @@ const [email , setEmail ] = useState<any>()
         <Layout>
           <Header style={{ padding: 0, background: colorBgContainer }} >
           
-          <img src={logo} style={{height:'100%',width:'10%'}}></img>
+          
           </Header>
           <Content style={{ margin: "0 16px" }}>
             <DataReturned isAuthenticated={isAuthenticated} email={email}/>

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Input, Modal, Upload, UploadProps } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Button, Card, Input, Modal, Upload, UploadProps, notification } from "antd";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { auth, db } from "./firebase-config";
 import { Link, useNavigate } from "react-router-dom";
 import Meta from "antd/es/card/Meta";
@@ -20,7 +20,10 @@ export const Myposts: React.FC<any> = ({ isAuthenticated, email }) => {
   const navigation = useNavigate();
   const [postLists, setPostList] = useState<any>([]);
   const [profileModal, setProfileModal] = useState(false);
+  const [openDelete, setOpenDelete] = useState<boolean>(false)
 
+  const [api, contextHolder] = notification.useNotification();
+  
   const showProfileModal = () => {
     setProfileModal(true);
   };
@@ -76,6 +79,40 @@ export const Myposts: React.FC<any> = ({ isAuthenticated, email }) => {
   }
 
   const showProfile = () => {};
+
+
+  const deletePost=async(id:any)=>{
+
+    const postDoc = doc(db, "userPosts", id);
+    await deleteDoc(postDoc);
+
+    setOpenDelete(false)
+
+    api['success']({
+      message: 'Deleted Successfully',
+      description:
+        `post with postID: ${id} deleted..`,
+    });
+  }
+
+  useEffect(() => {
+    const getPosts = async () => {
+      const data = await getDocs(postsCollectionRef);
+
+      setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+
+    getPosts();
+  
+  }, [deletePost])
+
+  const closeDelete=()=>{
+    setOpenDelete(false);
+  }
+  
+  const openDeletePopUp=()=>{
+    setOpenDelete(true)
+  }
 
   return (
     <div>
@@ -141,6 +178,19 @@ export const Myposts: React.FC<any> = ({ isAuthenticated, email }) => {
                       <Meta description={post.author.name}></Meta>
                     </Link>
                   </Card>
+                  <Button
+                    onClick={() => {
+                      setOpenDelete(true);
+                    }}
+
+                  ><DeleteOutlined /></Button>
+
+                  <Modal onOk={()=>deletePost(post.id)} onCancel={closeDelete} open={openDelete}>
+                    <p>Deleting this post cannot get back.</p>
+                    <p>Are you sure you want to delete the post?</p>
+
+                  </Modal>
+                  {contextHolder}
                 </div>
               );
             } else {

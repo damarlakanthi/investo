@@ -1,11 +1,12 @@
-import { LikeOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Input, Modal, Row } from "antd";
+import { FileSearchOutlined, LikeOutlined } from "@ant-design/icons";
+import { Button, Card, Col, Input, Modal, Row  } from "antd";
 import Meta from "antd/es/card/Meta";
 import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { auth, db } from "./firebase-config";
 import { Link } from "react-router-dom";
 import UserProfile from "./userProfile";
+import TextArea from "antd/es/input/TextArea";
 const postsCollectionRef = collection(db, "userPosts");
 
 export const Feed: React.FC<any> = ({ isAuthenticated }) => {
@@ -127,15 +128,18 @@ export const Feed: React.FC<any> = ({ isAuthenticated }) => {
                     />
                   }
                 >
-                  <Meta title={post.title} description={post.postText}></Meta>
                   
-                    <Meta description={post.author.name}></Meta>
+                  <Meta title={post.title} description={post.postText}></Meta><br/>
                   
-
+                   Posted By <Meta description={post.author.name}></Meta>
+                  
+                  <br/><br/>
                     <Link to={`/userProfile?email=${post.email}`}> <Button onClick={showProfileModal}>Click to view Profile</Button></Link>
                   <p>{post.email}</p>
                 </Card>
-               
+                  
+                
+                
 
               <br/><br/>
                 </div>
@@ -156,6 +160,7 @@ export const Feed: React.FC<any> = ({ isAuthenticated }) => {
 
           <Col xs={{ span: 2, offset: 1 }} lg={{ span: 3, offset: 2 }}>
             <Input placeholder={"Enter to search for an article"} onChange={(event)=>{searchQuery(event.target.value)}}></Input>
+            
           </Col>
         </Row>
       </div>
