@@ -21,6 +21,8 @@ import jwtDecode from "jwt-decode";
 import axios from 'axios';
 import { GoogleOAuthProvider, googleLogout, useGoogleLogin } from "@react-oauth/google";
 import Loginpage from "./loginpage";
+import UserProfile from "./userProfile";
+import logo from './investo.png'
 
 const { Header, Footer, Sider } = Layout;
 
@@ -49,7 +51,8 @@ const items: MenuItem[] = [
   getItem("Profile", "/profile", <UserOutlined />),
 ];
 
-const Main: React.FC = () => {
+const Main: React.FC<any> = () => {
+
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -61,33 +64,9 @@ const Main: React.FC = () => {
   
 
 
-  const [user, setUser] = useState<any>({});
+  
 
-  useEffect(
-    () => {
-        if (user) {
-            axios
-                .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-                    headers: {
-                        Authorization: `Bearer ${user.access_token}`,
-                        Accept: 'application/json'
-                    }
-                })
-                .then((res) => {
-                    setProfile(res.data);
-                })
-                .catch((err) => console.log(err));
-
-                
-
-                
-        }
-    },
-    [ user ]
-);
-  const responseMessage=()=>{
-    navigate('/feed')
-  }
+  
 
     const [ profile, setProfile ] = useState<any>([]);
 
@@ -96,18 +75,16 @@ const Main: React.FC = () => {
 
     // log out function to log the user out of google and set the profile array to null
   
-  const logOut=()=>{
-    googleLogout();
-    setProfile(null);
-  }
+  // const logOut=()=>{
+  //   googleLogout();
+  //   setProfile(null);
+  // }
 
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse) => setUser(codeResponse),
-    onError: (error) => console.log('Login Failed:', error)
-});
+ 
 
 console.log('profileeee',profile)
 const [isAuthenticated, setisAuthenticated] = useState<boolean>()
+const [email , setEmail ] = useState<any>()
   return (
     // <div>
     //   {isAuthenticated ? (
@@ -150,14 +127,14 @@ const [isAuthenticated, setisAuthenticated] = useState<boolean>()
         <Layout>
           <Header style={{ padding: 0, background: colorBgContainer }} >
           
-          
+          <img src={logo} style={{height:'100%',width:'10%'}}></img>
           </Header>
           <Content style={{ margin: "0 16px" }}>
-            <DataReturned isAuthenticated={isAuthenticated}/>
+            <DataReturned isAuthenticated={isAuthenticated} email={email}/>
             
           </Content>
         </Layout>
-      </Layout>):(<Loginpage setisAuthenticated={setisAuthenticated}/>)}
+      </Layout>):(<Loginpage setisAuthenticated={setisAuthenticated} isAuthenticated={isAuthenticated} setEmail={setEmail}/>)}
       {/* <Layout style={{ minHeight: "100vh" }}>
         <Sider
           collapsible
@@ -189,15 +166,17 @@ const [isAuthenticated, setisAuthenticated] = useState<boolean>()
   );
 };
 
-const DataReturned: React.FC<any> = ({isAuthenticated}) => {
+const DataReturned: React.FC<any> = ({isAuthenticated,email}) => {
   return (
    
     <Routes>
      
-      <Route path="/network" element={<Network isAuthenticated={isAuthenticated}/>}></Route>
-      <Route path="/profile" element={<Profile isAuthenticated={isAuthenticated}/>}></Route>
-      <Route path="/feed" element={<Feed isAuthenticated={isAuthenticated}/>}></Route>
-      <Route path="/myposts" element={<Myposts isAuthenticated={isAuthenticated}/>}></Route>
+      <Route path="/network" element={<Network isAuthenticated={isAuthenticated} email={email}/>}></Route>
+      <Route path="/profile" element={<Profile isAuthenticated={isAuthenticated} email={email}/>}></Route>
+      <Route path="/feed" element={<Feed isAuthenticated={isAuthenticated} email={email}/>}></Route>
+      
+      <Route path="/myposts" element={<Myposts isAuthenticated={isAuthenticated} email={email} />}></Route>
+      <Route path="/userProfile" element={<UserProfile isAuthenticated={isAuthenticated} currentEmail={email} />}></Route>
 
     </Routes>
    

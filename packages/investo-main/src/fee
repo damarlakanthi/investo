@@ -1,0 +1,23 @@
+{postLists.map((post:any)=>{
+            {console.log("post list : ", post.title)}
+            
+        <div>
+          {/* <Card
+            hoverable
+            style={{ width: '100%' }}
+            cover={
+              <img
+                alt="example"
+                src="https://cdn.vectorstock.com/i/preview-1x/15/40/blank-profile-picture-image-holder-with-a-crown-vector-42411540.jpg"
+              />
+            }
+          >
+            <Meta title={'hellop'} description={"helllo"}/>
+            
+          </Card> */}
+          <h1>{post.title}</h1>
+          {/* <button style={{ border: "none" }}>
+            <LikeOutlined style={{ color: "green", fontSize: "40px" }} />
+          </button> */}
+        </div>
+      })}
