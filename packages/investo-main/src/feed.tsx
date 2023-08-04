@@ -1,7 +1,7 @@
 import { LikeOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Modal, Row } from "antd";
+import { Button, Card, Col, Input, Modal, Row } from "antd";
 import Meta from "antd/es/card/Meta";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { auth, db } from "./firebase-config";
 import { Link } from "react-router-dom";
@@ -24,28 +24,58 @@ export const Feed: React.FC<any> = ({ isAuthenticated }) => {
   const [profileUrl, setProfileUrl] = useState<any>();
   const [profileName, setProfileName] = useState<any>();
 
+  const getPosts = async () => {
+    const data = await getDocs(postsCollectionRef);
+
+    setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+
+    const profileUrl = auth.currentUser?.providerData[0].photoURL
+    const profileName = auth.currentUser?.displayName
+    setProfileUrl(profileUrl);
+    setProfileName(profileName);
+    
+  };
+
   useEffect(() => {
-    const getPosts = async () => {
-      const data = await getDocs(postsCollectionRef);
-
-      setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-
-      const profileUrl = auth.currentUser?.providerData[0].photoURL
-      const profileName = auth.currentUser?.displayName
-      setProfileUrl(profileUrl);
-      setProfileName(profileName);
-      
-    };
+    
 
     getPosts();
   }, []);
 
+  useEffect(() => {
+    
+  
+  }, [postLists])
+  
+
   const deletePost = async (id: any) => {
     const postDoc = doc(db, "posts", id);
     await deleteDoc(postDoc);
+    
 
     console.log("user details:",auth.currentUser)
   };
+
+  const searchQuery=async(value:any)=>{
+
+    if(value){
+    console.log("null array",value)
+    const q = query(collection(db, "userPosts"), where("title", "==", value));
+    const results = await getDocs(q);
+    setPostList(results.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    console.log("postLists2:",postLists)
+      
+    }
+    
+    else
+    getPosts();
+
+    
+
+
+  }
+
+
   return (
     <div>
       <div>
@@ -125,7 +155,7 @@ export const Feed: React.FC<any> = ({ isAuthenticated }) => {
           </Col>
 
           <Col xs={{ span: 2, offset: 1 }} lg={{ span: 3, offset: 2 }}>
-            Recent News
+            <Input placeholder={"Enter to search for an article"} onChange={(event)=>{searchQuery(event.target.value)}}></Input>
           </Col>
         </Row>
       </div>

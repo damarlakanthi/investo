@@ -166,13 +166,13 @@ const [email , setEmail ] = useState<any>()
   );
 };
 
-const DataReturned: React.FC<any> = ({isAuthenticated,email}) => {
+const DataReturned: React.FC<any> = ({isAuthenticated,email,setisAuthenticated}) => {
   return (
    
     <Routes>
      
       <Route path="/network" element={<Network isAuthenticated={isAuthenticated} email={email}/>}></Route>
-      <Route path="/profile" element={<Profile isAuthenticated={isAuthenticated} email={email}/>}></Route>
+      <Route path="/profile" element={<Profile isAuthenticated={isAuthenticated} email={email} setisAuthenticated={setisAuthenticated}/>}></Route>
       <Route path="/feed" element={<Feed isAuthenticated={isAuthenticated} email={email}/>}></Route>
       
       <Route path="/myposts" element={<Myposts isAuthenticated={isAuthenticated} email={email} />}></Route>

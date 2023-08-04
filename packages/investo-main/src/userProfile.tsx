@@ -1,4 +1,4 @@
-import { Button, Card, Modal, Tabs, TabsProps } from 'antd'
+import { Button, Card, Modal, Tabs, TabsProps, message } from 'antd'
 import Meta from 'antd/es/card/Meta';
 import { addDoc, collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
@@ -20,6 +20,17 @@ const followCollectionRef = collection(db,"following");
   const [follow, setFollow] = useState<any>();
   const [refID,setrefID] = useState<any>();
 const [showUnfollow, setShowUnfollowWarning] = useState<boolean>(false)
+const [messageApi, contextHolder] = message.useMessage();
+
+
+const copyToClipBoard=()=>{
+    navigator.clipboard.writeText(email);
+
+    messageApi.open({
+        type: 'success',
+        content: 'Email copied to clipboard',
+      });
+}
   
    
     useEffect(() => {
@@ -173,7 +184,8 @@ if(res)
             ):(<></>)}
           </div>
           {follow?(<Button onClick={unfollowModal}>Unfollow </Button>):(<Button onClick={handleFollow}>Follow</Button>)}
-          <Link to=""><Button>Message</Button></Link>
+          <Button onClick={copyToClipBoard}>Message</Button>
+          {contextHolder}
             
          
           </>,
