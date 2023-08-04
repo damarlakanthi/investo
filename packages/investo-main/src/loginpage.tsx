@@ -11,6 +11,7 @@ import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
 import { addDoc, collection } from 'firebase/firestore';
 import Main from './main';
+import gimg from './google.png'
 export const Loginpage:React.FC<any> = ({setisAuthenticated, isAuthenticated, setEmail}) => {
 
   const navigate = useNavigate();
@@ -77,10 +78,10 @@ export const Loginpage:React.FC<any> = ({setisAuthenticated, isAuthenticated, se
       <div className="loginPage">
           
           {contextHolder}
-        <p>Sign In With Google to Continue</p>
+       
         
         <Button className="login-with-google-btn" onClick={signInWithGoogle}>
-          Sign in with Google
+          <img src={gimg} style={{width:'20px',height:'20px'}}></img><span></span>Sign in with Google
         </Button>
       </div>)}
       </div>

@@ -3,7 +3,8 @@ import Meta from 'antd/es/card/Meta';
 import { addDoc, collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { auth, db } from './firebase-config';
-
+import styles from './myposts.module.css'
+import { Link } from 'react-router-dom';
 export const UserProfile:React.FC<any> = ({currentEmail}) => {
 
     const url = window.location.search;
@@ -103,16 +104,16 @@ if(res)
           children: <>
           
           
-          <div>
+          <div className={styles.myposts}>
         {postLists ? (
           postLists.map((post: any) => {
             
             if (post.email == email) {
               return (
-                <div>
+                <div className={styles.post}>
                 <Card
                   hoverable
-                  style={{ width: "20%" }}
+                  style={{ width: "100%" }}
                   cover={
                     <img
                       alt="profilepic"
@@ -152,7 +153,27 @@ if(res)
           key: '2',
           label: `Profile`,
           children: <>
+          <div>
+            {auth.currentUser?(
+               
+                  <Card 
+                  hoverable
+                  style={{width:'30%'}}
+                  cover={
+                    <img src= ""/>
+                  }
+                  
+                  
+                  >
+                    <Meta title={email}></Meta>
+
+
+                  </Card>
+                
+            ):(<></>)}
+          </div>
           {follow?(<Button onClick={unfollowModal}>Unfollow </Button>):(<Button onClick={handleFollow}>Follow</Button>)}
+          <Link to=""><Button>Message</Button></Link>
             
          
           </>,

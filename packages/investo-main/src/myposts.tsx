@@ -7,6 +7,7 @@ import { auth, db } from "./firebase-config";
 import { Link, useNavigate } from "react-router-dom";
 import Meta from "antd/es/card/Meta";
 import UserProfile from "./userProfile";
+import styles from './myposts.module.css'
 
 export const Myposts: React.FC<any> = ({ isAuthenticated, email }) => {
   console.log("my email: ", email);
@@ -82,6 +83,7 @@ export const Myposts: React.FC<any> = ({ isAuthenticated, email }) => {
         <PlusOutlined />
         Create new Post
       </Button>
+      <br/><br/>
       <Modal
         title="Create New Post"
         open={isModalOpen}
@@ -114,7 +116,7 @@ export const Myposts: React.FC<any> = ({ isAuthenticated, email }) => {
 
       </Modal>
 
-      <div>
+      <div className={styles.myposts}>
         {postLists ? (
           postLists.map((post: any) => {
             {
@@ -122,10 +124,10 @@ export const Myposts: React.FC<any> = ({ isAuthenticated, email }) => {
             }
             if (post.email == email) {
               return (
-                <div>
+                <div  className={styles.post}>
                   <Card
                     hoverable
-                    style={{ width: "20%" }}
+                    style={{ width: "100%" }}
                     cover={
                       <img
                         alt="example"
