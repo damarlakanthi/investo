@@ -4,7 +4,7 @@
 for running the application
 
 
-clone the landing page application
+clone the landing page application: https://github.com/damarlakanthi/investo-landing
 #run pip install flask
 #run python landingpage.py
 
