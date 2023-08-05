@@ -25,17 +25,6 @@ p {
     color: #777;
 }
 
-.google-btn {
-    display: inline-block;
-    margin-top: 30px;
-    padding: 12px 20px;
-    border-radius: 4px;
-    background-color: #ea4335;
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
 
 .google-icon {
     width: 20px;
